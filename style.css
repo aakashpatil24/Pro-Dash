@@ -3,6 +3,7 @@
 ============================================================ */
 :root {
   --topbar-height: 65px;
+  --footer-height: 45px;
   --bg-primary: #f0f4f8;
   --bg-overlay: rgba(240, 244, 248, 0.1);
   --surface: #ffffff;
@@ -175,6 +176,7 @@ input[type="text"]::placeholder {
   position: relative;
   z-index: 1;
   padding-top: var(--topbar-height);
+  padding-bottom: var(--footer-height);
 }
 /* ============================================================
    TOP BAR
@@ -438,7 +440,7 @@ input[type="text"]::placeholder {
   top: var(--topbar-height);
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--footer-height);
   z-index: 200;
   background: var(--bg-overlay);
   backdrop-filter: blur(6px);
@@ -1214,6 +1216,31 @@ button:disabled {
   border-radius: 1rem;
   transition: width 0.4s ease;
   min-width: 0;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.app-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    text-align: center;
+    padding: 0.7rem 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--top-bar-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.app-footer strong {
+    color: var(--accent);
+    font-weight: 600;
 }
 
 /* ============================================================
