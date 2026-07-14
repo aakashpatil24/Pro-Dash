@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="assets/icons/dashboard.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProDash — Productivity Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Prevent theme flash: apply saved theme before first paint -->
+    <script>
+      (function () {
+        const t = localStorage.getItem("pdb_theme") || "light";
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app-wrapper">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <div class="app-logo">
+            <img
+              src="assets/icons/dashboard.svg"
+              alt="ProDash"
+              class="logo-img"
+            />
+            <span class="logo-text">ProDash</span>
+          </div>
+        </div>
+
+        <div class="top-bar-center">
+          <div id="datetime-display">
+            <span id="current-time">--:--:-- --</span>
+            <span id="current-date">Loading...</span>
+          </div>
+        </div>
+
+        <div class="top-bar-right">
+          <div id="weather-mini" title="Open Weather">
+            <span id="weather-mini-icon">🌤</span>
+            <span id="weather-mini-temp">--°C</span>
+            <span id="weather-mini-city">Weather</span>
+          </div>
+          <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+            <span class="theme-icon-sun">☀️</span>
+            <span class="theme-icon-moon">🌙</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ================================================
+         DASHBOARD — Home Screen
+    ================================================ -->
+      <div id="dashboard">
+        <!-- Greeting -->
+        <div class="greeting-section">
+          <h1 id="greeting-text">Good Morning! ☀️</h1>
+          <p class="greeting-sub">What will you achieve today?</p>
+        </div>
+
+        <!-- Feature Cards Grid -->
+        <main class="feature-grid">
+          <!-- Todo Card -->
+          <div class="feature-card" data-target="todo">
+            <div class="card-icon">
+              <img
+                src="assets/icons/todo.svg"
+                alt=""
+                style="display: none"
+                onload="
+                  this.style.display = 'block';
+                  this.nextElementSibling.style.display = 'none';
+                "
+                onerror="this.remove()"
+              />
+              <span class="card-emoji-fallback">📝</span>
+            </div>
+            <h3 class="card-title">Todo List</h3>
+            <p class="card-desc">Manage your tasks</p>
+            <span class="card-badge" id="todo-badge">0 tasks</span>
+          </div>
+
+          <!-- Planner Card -->
+          <div class="feature-card" data-target="planner">
+            <div class="card-icon">
+              <img
+                src="assets/icons/planner.svg"
+                alt=""
+                style="display: none"
+                onload="
+                  this.style.display = 'block';
+                  this.nextElementSibling.style.display = 'none';
+                "
+                onerror="this.remove()"
+              />
+              <span class="card-emoji-fallback">📅</span>
+            </div>
+            <h3 class="card-title">Daily Planner</h3>
+            <p class="card-desc">Plan your hours</p>
+            <span class="card-badge">Schedule Day</span>
+          </div>
+
+          <!-- Pomodoro Card -->
+          <div class="feature-card" data-target="pomodoro">
+            <div class="card-icon">
+              <img
+                src="assets/icons/pomodoro.svg"
+                alt=""
+                style="display: none"
+                onload="
+                  this.style.display = 'block';
+                  this.nextElementSibling.style.display = 'none';
+                "
+                onerror="this.remove()"
+              />
+              <span class="card-emoji-fallback">⏱</span>
+            </div>
+            <h3 class="card-title">Pomodoro Timer</h3>
+            <p class="card-desc">Focus & break sessions</p>
+            <span class="card-badge" id="pomodoro-badge">25:00</span>
+          </div>
+
+          <!-- Quote Card -->
+          <div class="feature-card" data-target="quote">
+            <div class="card-icon">
+              <img
+                src="assets/icons/quote.svg"
+                alt=""
+                style="display: none"
+                onload="
+                  this.style.display = 'block';
+                  this.nextElementSibling.style.display = 'none';
+                "
+                onerror="this.remove()"
+              />
+              <span class="card-emoji-fallback">💬</span>
+            </div>
+            <h3 class="card-title">Daily Quote</h3>
+            <p class="card-desc">Get inspired</p>
+            <span class="card-badge">Motivate Me</span>
+          </div>
+
+          <!-- Weather Card -->
+          <div class="feature-card" data-target="weather">
+            <div class="card-icon">
+              <img
+                src="assets/icons/weather.svg"
+                alt=""
+                style="display: none"
+                onload="
+                  this.style.display = 'block';
+                  this.nextElementSibling.style.display = 'none';
+                "
+                onerror="this.remove()"
+              />
+              <span class="card-emoji-fallback">🌦</span>
+            </div>
+            <h3 class="card-title">Weather</h3>
+            <p class="card-desc">Current conditions</p>
+            <span class="card-badge" id="weather-badge">Live Data</span>
+          </div>
+
+          <!-- Goals Card -->
+          <div class="feature-card" data-target="goals">
+            <div class="card-icon">
+              <img
+                src="assets/icons/goals.svg"
+                alt=""
+                style="display: none"
+                onload="
+                  this.style.display = 'block';
+                  this.nextElementSibling.style.display = 'none';
+                "
+                onerror="this.remove()"
+              />
+              <span class="card-emoji-fallback">🎯</span>
+            </div>
+            <h3 class="card-title">Daily Goals</h3>
+            <p class="card-desc">Track your progress</p>
+            <span class="card-badge" id="goals-badge">0 of 0</span>
+          </div>
+        </main>
+      </div>
+      <!-- /dashboard -->
+
+      <!-- ================================================
+         FEATURE VIEW — Full-screen panel overlay
+    ================================================ -->
+      <div id="feature-view">
+        <!-- Shared Feature Header -->
+        <div class="feature-header">
+          <button id="back-btn" class="back-btn">
+            <img
+              src="assets/icons/back-arrow.svg"
+              alt=""
+              style="display: none"
+              onload="
+                this.style.display = 'inline';
+                this.nextElementSibling.style.display = 'none';
+              "
+              onerror="this.remove()"
+            />
+            <span>← Back</span>
+          </button>
+          <h2 id="feature-title">Feature</h2>
+          <div class="feature-header-right">
+            <span id="ft-time"></span>
+          </div>
+        </div>
+
+        <!-- ============ TODO SECTION ============ -->
+        <section id="feature-todo" class="feature-section">
+          <div class="feature-content">
+            <div class="input-row">
+              <input
+                type="text"
+                id="todo-input"
+                placeholder="Add a new task..."
+                maxlength="120"
+                autocomplete="off"
+              />
+              <button id="todo-add-btn" class="btn-primary">Add Task</button>
+            </div>
+
+            <div class="filter-row">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="active">Active</button>
+              <button class="filter-btn" data-filter="completed">
+                Completed
+              </button>
+              <button class="filter-btn" data-filter="important">
+                ⭐ Important
+              </button>
+            </div>
+
+            <ul id="todo-list" class="task-list"></ul>
+
+            <div class="list-footer">
+              <span id="todo-count">0 tasks remaining</span>
+              <button id="todo-clear-btn" class="btn-ghost">
+                Clear Completed
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ PLANNER SECTION ============ -->
+        <section id="feature-planner" class="feature-section">
+          <div class="feature-content">
+            <div class="planner-top-bar">
+              <h3 id="planner-date-label"></h3>
+              <button id="planner-clear-btn" class="btn-ghost">
+                Clear All
+              </button>
+            </div>
+
+            <div id="planner-slots" class="planner-slots">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ POMODORO SECTION ============ -->
+        <section id="feature-pomodoro" class="feature-section">
+          <div class="feature-content pomodoro-wrap">
+            <div class="mode-tabs">
+              <button class="mode-tab active" data-mode="work">Work</button>
+              <button class="mode-tab" data-mode="short">Short Break</button>
+              <button class="mode-tab" data-mode="long">Long Break</button>
+            </div>
+
+            <div class="timer-ring-wrap">
+              <svg class="timer-svg" viewBox="0 0 220 220" aria-hidden="true">
+                <circle class="ring-bg" cx="110" cy="110" r="96" />
+                <circle
+                  class="ring-fill"
+                  cx="110"
+                  cy="110"
+                  r="96"
+                  id="timer-ring-fill"
+                />
+              </svg>
+              <div class="timer-inner">
+                <span id="pomo-time">25:00</span>
+                <span id="pomo-label">Work Session</span>
+              </div>
+            </div>
+
+            <div class="pomo-controls">
+              <button id="pomo-start" class="btn-primary btn-lg">Start</button>
+              <button id="pomo-pause" class="btn-secondary btn-lg" disabled>
+                Pause
+              </button>
+              <button id="pomo-reset" class="btn-ghost btn-lg">Reset</button>
+            </div>
+
+            <p id="pomo-session-label" class="pomo-session">Session #1</p>
+            <div id="pomo-message" class="pomo-message hidden"></div>
+          </div>
+        </section>
+
+        <!-- ============ QUOTE SECTION ============ -->
+        <section id="feature-quote" class="feature-section">
+          <div class="feature-content quote-wrap">
+            <div class="quote-card">
+              <span class="quote-decoration">"</span>
+              <p id="quote-text" class="quote-text">
+                <span class="loading-spinner"></span>
+              </p>
+              <p id="quote-author" class="quote-author"></p>
+            </div>
+
+            <div class="quote-actions">
+              <button id="quote-new-btn" class="btn-primary btn-lg">
+                New Quote
+              </button>
+              <button id="quote-copy-btn" class="btn-secondary">Copy</button>
+            </div>
+
+            <p id="quote-status" class="quote-status"></p>
+          </div>
+        </section>
+
+        <!-- ============ WEATHER SECTION ============ -->
+        <section id="feature-weather" class="feature-section">
+          <div class="feature-content weather-wrap">
+            <!-- Loading -->
+            <div id="weather-loading" class="weather-state">
+              <div class="loading-spinner lg"></div>
+              <p>Fetching weather data...</p>
+            </div>
+
+            <!-- Error / City Search -->
+            <div id="weather-error" class="weather-state hidden">
+              <p id="weather-err-msg" class="err-text">
+                Could not get weather.
+              </p>
+              <div class="input-row">
+                <input
+                  type="text"
+                  id="weather-city-input"
+                  placeholder="Enter city name..."
+                  autocomplete="off"
+                />
+                <button id="weather-city-btn" class="btn-primary">
+                  Search
+                </button>
+              </div>
+            </div>
+
+            <!-- Data Display -->
+            <div id="weather-data" class="hidden">
+              <div class="weather-main">
+                <span id="w-icon" class="w-icon">🌤</span>
+                <div class="w-temp-wrap">
+                  <span id="w-temp" class="w-temp">--</span>
+                  <span class="w-unit">°C</span>
+                </div>
+                <span id="w-condition" class="w-condition">--</span>
+                <span id="w-city" class="w-city">--</span>
+              </div>
+
+              <div class="weather-details">
+                <div class="w-detail">
+                  <span class="w-detail-icon">💧</span>
+                  <span class="w-detail-label">Humidity</span>
+                  <span id="w-humidity" class="w-detail-val">--%</span>
+                </div>
+                <div class="w-detail">
+                  <span class="w-detail-icon">💨</span>
+                  <span class="w-detail-label">Wind</span>
+                  <span id="w-wind" class="w-detail-val">-- km/h</span>
+                </div>
+                <div class="w-detail">
+                  <span class="w-detail-icon">🌡</span>
+                  <span class="w-detail-label">Feels Like</span>
+                  <span id="w-feels" class="w-detail-val">--°C</span>
+                </div>
+                <div class="w-detail">
+                  <span class="w-detail-icon">👁</span>
+                  <span class="w-detail-label">Visibility</span>
+                  <span id="w-visibility" class="w-detail-val">-- km</span>
+                </div>
+              </div>
+
+              <button id="weather-refresh-btn" class="btn-ghost">
+                ↻ Refresh
+              </button>
+            </div>
+            <!-- /weather-data -->
+          </div>
+        </section>
+
+        <!-- ============ GOALS SECTION ============ -->
+        <section id="feature-goals" class="feature-section">
+          <div class="feature-content">
+            <div class="input-row">
+              <input
+                type="text"
+                id="goals-input"
+                placeholder="Add a goal for today..."
+                maxlength="120"
+                autocomplete="off"
+              />
+              <button id="goals-add-btn" class="btn-primary">Add Goal</button>
+            </div>
+
+            <div class="progress-wrap">
+              <div class="progress-info">
+                <span id="goals-progress-text">0 of 0 goals completed</span>
+                <span id="goals-progress-pct">0%</span>
+              </div>
+              <div class="progress-track">
+                <div
+                  id="goals-progress-bar"
+                  class="progress-fill"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+
+            <ul id="goals-list" class="task-list"></ul>
+
+            <div class="list-footer">
+              <span></span>
+              <button id="goals-clear-btn" class="btn-ghost">
+                Clear Completed
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- /feature-view -->
+    </div>
+    <!-- /app-wrapper -->
+
+    <script src="script.js"></script>
+  </body>
+</html>
