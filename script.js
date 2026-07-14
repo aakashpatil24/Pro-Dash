@@ -9,65 +9,117 @@
    CONFIG — Constants, keys, defaults
 ============================================================ */
 const CONFIG = {
+  WEATHER_URL: "https://api.open-meteo.com/v1/forecast",
+  WEATHER_GEO_URL: "https://geocoding-api.open-meteo.com/v1/search",
+  WEATHER_REVERSE_URL: "https://nominatim.openstreetmap.org/reverse",
 
-    // ⚠️  Replace with your OpenWeatherMap API key (free at openweathermap.org)
-    WEATHER_API_KEY: 'YOUR_OPENWEATHERMAP_API_KEY',
-    WEATHER_URL: 'https://api.openweathermap.org/data/2.5/weather',
+  // Quote API — free, CORS-enabled, no key required
+  QUOTE_URL: "https://api.quotable.io/random",
 
-    // Quote API — free, CORS-enabled, no key required
-    QUOTE_URL: 'https://api.quotable.io/random',
+  // Pomodoro durations in seconds
+  POMODORO: {
+    work: 25 * 60,
+    short: 5 * 60,
+    long: 15 * 60,
+  },
 
-    // Pomodoro durations in seconds
-    POMODORO: {
-        work:  25 * 60,
-        short:  5 * 60,
-        long:  15 * 60,
+  // Planner time range (24-hr)
+  PLANNER_START: 6,
+  PLANNER_END: 23,
+
+  // LocalStorage keys — prefixed to avoid collisions
+  LS: {
+    theme: "pdb_theme",
+    todos: "pdb_todos",
+    goals: "pdb_goals",
+    planner: "pdb_planner",
+  },
+
+  // Weather icon map (OpenWeatherMap icon code → emoji)
+  WEATHER_CODES: {
+    0: { emoji: "☀️", desc: "Clear sky" },
+    1: { emoji: "🌤", desc: "Mainly clear" },
+    2: { emoji: "⛅", desc: "Partly cloudy" },
+    3: { emoji: "☁️", desc: "Overcast" },
+    45: { emoji: "🌫", desc: "Foggy" },
+    48: { emoji: "🌫", desc: "Icy fog" },
+    51: { emoji: "🌦", desc: "Light drizzle" },
+    53: { emoji: "🌦", desc: "Drizzle" },
+    55: { emoji: "🌧", desc: "Heavy drizzle" },
+    61: { emoji: "🌧", desc: "Light rain" },
+    63: { emoji: "🌧", desc: "Rain" },
+    65: { emoji: "🌧", desc: "Heavy rain" },
+    71: { emoji: "❄️", desc: "Light snow" },
+    73: { emoji: "❄️", desc: "Snow" },
+    75: { emoji: "❄️", desc: "Heavy snow" },
+    77: { emoji: "❄️", desc: "Snow grains" },
+    80: { emoji: "🌦", desc: "Light showers" },
+    81: { emoji: "🌦", desc: "Rain showers" },
+    82: { emoji: "🌧", desc: "Heavy showers" },
+    85: { emoji: "❄️", desc: "Snow showers" },
+    86: { emoji: "❄️", desc: "Heavy snow showers" },
+    95: { emoji: "⛈", desc: "Thunderstorm" },
+    96: { emoji: "⛈", desc: "Thunderstorm with hail" },
+    99: { emoji: "⛈", desc: "Heavy thunderstorm" },
+  },
+
+  // Background gradients per time-of-day (used as fallback if image missing)
+  BACKGROUNDS: {
+    morning: {
+      img: "assets/backgrounds/morning.jpg",
+      gradient: "linear-gradient(135deg,#fbd786,#f7797d)",
     },
-
-    // Planner time range (24-hr)
-    PLANNER_START: 6,
-    PLANNER_END: 23,
-
-    // LocalStorage keys — prefixed to avoid collisions
-    LS: {
-        theme:   'pdb_theme',
-        todos:   'pdb_todos',
-        goals:   'pdb_goals',
-        planner: 'pdb_planner',
+    afternoon: {
+      img: "assets/backgrounds/afternoon.jpg",
+      gradient: "linear-gradient(135deg,#84fab0,#8fd3f4)",
     },
-
-    // Weather icon map (OpenWeatherMap icon code → emoji)
-    WEATHER_ICONS: {
-        '01d':'☀️','01n':'🌙',
-        '02d':'⛅','02n':'⛅',
-        '03d':'☁️','03n':'☁️',
-        '04d':'☁️','04n':'☁️',
-        '09d':'🌧','09n':'🌧',
-        '10d':'🌦','10n':'🌧',
-        '11d':'⛈','11n':'⛈',
-        '13d':'❄️','13n':'❄️',
-        '50d':'🌫','50n':'🌫',
+    evening: {
+      img: "assets/backgrounds/evening.jpg",
+      gradient: "linear-gradient(135deg,#f093fb,#f5576c)",
     },
-
-    // Background gradients per time-of-day (used as fallback if image missing)
-    BACKGROUNDS: {
-        morning:   { img: 'assets/backgrounds/morning.jpg',   gradient: 'linear-gradient(135deg,#fbd786,#f7797d)' },
-        afternoon: { img: 'assets/backgrounds/afternoon.jpg', gradient: 'linear-gradient(135deg,#84fab0,#8fd3f4)' },
-        evening:   { img: 'assets/backgrounds/evening.jpg',   gradient: 'linear-gradient(135deg,#f093fb,#f5576c)' },
-        night:     { img: 'assets/backgrounds/night.jpg',     gradient: 'linear-gradient(135deg,#0f2027,#203a43,#2c5364)' },
+    night: {
+      img: "assets/backgrounds/night.jpg",
+      gradient: "linear-gradient(135deg,#0f2027,#203a43,#2c5364)",
     },
+  },
 
-    // Fallback quotes shown if API is unreachable
-    FALLBACK_QUOTES: [
-        { content: 'The secret of getting ahead is getting started.',                     author: 'Mark Twain' },
-        { content: 'It always seems impossible until it\'s done.',                        author: 'Nelson Mandela' },
-        { content: 'Don\'t watch the clock; do what it does. Keep going.',               author: 'Sam Levenson' },
-        { content: 'Success is the sum of small efforts, repeated day in and day out.',   author: 'Robert Collier' },
-        { content: 'Believe you can and you\'re halfway there.',                          author: 'Theodore Roosevelt' },
-        { content: 'The future depends on what you do today.',                            author: 'Mahatma Gandhi' },
-        { content: 'You don\'t have to be great to start, but you have to start to be great.', author: 'Zig Ziglar' },
-        { content: 'Focus on being productive instead of busy.',                          author: 'Tim Ferriss' },
-    ],
+  // Fallback quotes shown if API is unreachable
+  FALLBACK_QUOTES: [
+    {
+      content: "The secret of getting ahead is getting started.",
+      author: "Mark Twain",
+    },
+    {
+      content: "It always seems impossible until it's done.",
+      author: "Nelson Mandela",
+    },
+    {
+      content: "Don't watch the clock; do what it does. Keep going.",
+      author: "Sam Levenson",
+    },
+    {
+      content:
+        "Success is the sum of small efforts, repeated day in and day out.",
+      author: "Robert Collier",
+    },
+    {
+      content: "Believe you can and you're halfway there.",
+      author: "Theodore Roosevelt",
+    },
+    {
+      content: "The future depends on what you do today.",
+      author: "Mahatma Gandhi",
+    },
+    {
+      content:
+        "You don't have to be great to start, but you have to start to be great.",
+      author: "Zig Ziglar",
+    },
+    {
+      content: "Focus on being productive instead of busy.",
+      author: "Tim Ferriss",
+    },
+  ],
 };
 
 
@@ -1003,141 +1055,197 @@ const Quote = {
    WEATHER MODULE
 ============================================================ */
 const Weather = {
+  // ── UI States ─────────────────────────────────────────
+  showLoading() {
+    DOM.weatherLoading.classList.remove("hidden");
+    DOM.weatherError.classList.add("hidden");
+    DOM.weatherDataDiv.classList.add("hidden");
+  },
 
-    // ── UI States ─────────────────────────────────────────
-    showLoading() {
-        DOM.weatherLoading.classList.remove('hidden');
-        DOM.weatherError.classList.add('hidden');
-        DOM.weatherDataDiv.classList.add('hidden');
-    },
+  showError(msg) {
+    DOM.weatherLoading.classList.add("hidden");
+    DOM.weatherError.classList.remove("hidden");
+    DOM.weatherDataDiv.classList.add("hidden");
+    DOM.weatherErrMsg.textContent = msg;
+  },
 
-    showError(msg) {
-        DOM.weatherLoading.classList.add('hidden');
-        DOM.weatherError.classList.remove('hidden');
-        DOM.weatherDataDiv.classList.add('hidden');
-        DOM.weatherErrMsg.textContent = msg;
-    },
+  showData() {
+    DOM.weatherLoading.classList.add("hidden");
+    DOM.weatherError.classList.add("hidden");
+    DOM.weatherDataDiv.classList.remove("hidden");
+  },
 
-    showData() {
-        DOM.weatherLoading.classList.add('hidden');
-        DOM.weatherError.classList.add('hidden');
-        DOM.weatherDataDiv.classList.remove('hidden');
-    },
+  // ── Fetch by coordinates ──────────────────────────────
+  async _fetchByCoords(lat, lon, silent = false) {
+    if (!silent) this.showLoading();
 
-    // ── Fetch ─────────────────────────────────────────────
-    async _fetchURL(url, silent = false) {
-        if (CONFIG.WEATHER_API_KEY === 'YOUR_OPENWEATHERMAP_API_KEY') {
-            const msg = 'Add your OpenWeatherMap API key to CONFIG.WEATHER_API_KEY in script.js';
-            if (!silent) this.showError(msg);
-            return;
-        }
+    try {
+      const weatherURL = `${CONFIG.WEATHER_URL}?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,visibility&wind_speed_unit=kmh&timezone=auto`;
+      const reverseURL = `${CONFIG.WEATHER_REVERSE_URL}?lat=${lat}&lon=${lon}&format=json`;
 
-        if (!silent) this.showLoading();
+      // Run both requests in parallel
+      const [weatherRes, geoRes] = await Promise.all([
+        fetch(weatherURL, { signal: AbortSignal.timeout(8000) }),
+        fetch(reverseURL, {
+          headers: { Accept: "application/json" },
+          signal: AbortSignal.timeout(8000),
+        }),
+      ]);
 
-        try {
-            const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-            if (!res.ok) {
-                const err = await res.json().catch(() => ({}));
-                throw new Error(err.message || `HTTP ${res.status}`);
-            }
-            const data = await res.json();
-            this._displayData(data);
-            STATE.weatherCache  = data;
-            STATE.weatherLoaded = true;
-        } catch (e) {
-            if (!silent) this.showError(`Could not fetch weather: ${e.message}`);
-        }
-    },
+      if (!weatherRes.ok)
+        throw new Error(`Weather error: HTTP ${weatherRes.status}`);
 
-    fetchByCoords(lat, lon, silent = false) {
-        const url = `${CONFIG.WEATHER_URL}?lat=${lat}&lon=${lon}&units=metric&appid=${CONFIG.WEATHER_API_KEY}`;
-        return this._fetchURL(url, silent);
-    },
+      const weatherData = await weatherRes.json();
+      const geoData = geoRes.ok ? await geoRes.json() : null;
 
-    fetchByCity(city, silent = false) {
-        const url = `${CONFIG.WEATHER_URL}?q=${encodeURIComponent(city)}&units=metric&appid=${CONFIG.WEATHER_API_KEY}`;
-        return this._fetchURL(url, silent);
-    },
+      // Extract city name from reverse geocoding response
+      let cityName = "Your Location";
+      let countryCode = "";
+      if (geoData && geoData.address) {
+        cityName =
+          geoData.address.city ||
+          geoData.address.town ||
+          geoData.address.village ||
+          geoData.address.county ||
+          "Your Location";
+        countryCode = (geoData.address.country_code || "").toUpperCase();
+      }
 
-    // ── Display ───────────────────────────────────────────
-    _displayData(data) {
-        const iconCode = data.weather[0].icon;
-        const emoji    = CONFIG.WEATHER_ICONS[iconCode] || '🌤';
-        const temp     = Math.round(data.main.temp);
-        const city     = `${data.name}, ${data.sys.country}`;
+      this._displayData(weatherData, cityName, countryCode);
+      STATE.weatherCache = { weatherData, cityName, countryCode };
+      STATE.weatherLoaded = true;
+    } catch (e) {
+      if (!silent) this.showError(`Could not fetch weather. ${e.message}`);
+    }
+  },
 
-        // Full panel
-        DOM.wIcon.textContent        = emoji;
-        DOM.wTemp.textContent        = temp;
-        DOM.wCondition.textContent   = data.weather[0].description;
-        DOM.wCity.textContent        = city;
-        DOM.wHumidity.textContent    = `${data.main.humidity}%`;
-        DOM.wWind.textContent        = `${Math.round(data.wind.speed * 3.6)} km/h`;
-        DOM.wFeels.textContent       = `${Math.round(data.main.feels_like)}°C`;
-        DOM.wVisibility.textContent  = `${(data.visibility / 1000).toFixed(1)} km`;
+  // ── Fetch by city name ────────────────────────────────
+  async fetchByCity(city, silent = false) {
+    if (!silent) this.showLoading();
 
-        // Mini weather pill in top bar
-        DOM.weatherMiniIcon.textContent = emoji;
-        DOM.weatherMiniTemp.textContent = `${temp}°C`;
-        DOM.weatherMiniCity.textContent = data.name;
+    try {
+      // Step 1: Get coordinates for the city name
+      const geoURL = `${CONFIG.WEATHER_GEO_URL}?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
+      const geoRes = await fetch(geoURL, { signal: AbortSignal.timeout(8000) });
 
-        // Dashboard card badge
-        const badge = document.getElementById('weather-badge');
-        if (badge) badge.textContent = `${temp}°C`;
+      if (!geoRes.ok) throw new Error(`Geocoding error: HTTP ${geoRes.status}`);
+      const geoData = await geoRes.json();
 
-        this.showData();
-    },
+      if (!geoData.results || geoData.results.length === 0) {
+        throw new Error(`City "${city}" not found. Try another name.`);
+      }
 
-    // ── Geolocation ───────────────────────────────────────
-    _geoLocate(silent = false) {
-        if (!navigator.geolocation) {
-            if (!silent) this.showError('Geolocation not supported. Enter a city below.');
-            return;
-        }
+      const { latitude, longitude, name, country_code } = geoData.results[0];
 
-        navigator.geolocation.getCurrentPosition(
-            pos  => this.fetchByCoords(pos.coords.latitude, pos.coords.longitude, silent),
-            ()   => {
-                if (!silent) this.showError('Location access denied. Enter a city name below.');
-            }
-        );
-    },
+      // Step 2: Get weather for those coordinates
+      const weatherURL = `${CONFIG.WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,visibility&wind_speed_unit=kmh&timezone=auto`;
+      const weatherRes = await fetch(weatherURL, {
+        signal: AbortSignal.timeout(8000),
+      });
 
-    // Called silently on page load to populate the top-bar mini widget
-    silentLoad() {
-        this._geoLocate(true);
-    },
+      if (!weatherRes.ok)
+        throw new Error(`Weather error: HTTP ${weatherRes.status}`);
+      const weatherData = await weatherRes.json();
 
-    // Called when the weather feature panel is opened
-    onOpen() {
-        if (STATE.weatherLoaded && STATE.weatherCache) {
-            // Re-display cached data — no new network request
-            this._displayData(STATE.weatherCache);
-        } else {
-            this._geoLocate(false);
-        }
-    },
+      const countryCode = (country_code || "").toUpperCase();
+      this._displayData(weatherData, name, countryCode);
+      STATE.weatherCache = { weatherData, cityName: name, countryCode };
+      STATE.weatherLoaded = true;
+    } catch (e) {
+      if (!silent) this.showError(e.message || "Could not fetch weather.");
+    }
+  },
 
-    // ── Events ────────────────────────────────────────────
-    init() {
-        DOM.weatherCityBtn.addEventListener('click', () => {
-            const city = DOM.weatherCityInput.value.trim();
-            if (city) this.fetchByCity(city);
-        });
+  // ── Display fetched data ──────────────────────────────
+  _displayData(weatherData, cityName, countryCode) {
+    const current = weatherData.current;
+    const code = current.weather_code;
+    const weatherInfo = CONFIG.WEATHER_CODES[code] || {
+      emoji: "🌤",
+      desc: "Unknown",
+    };
 
-        DOM.weatherCityInput.addEventListener('keydown', e => {
-            if (e.key === 'Enter') {
-                const city = DOM.weatherCityInput.value.trim();
-                if (city) this.fetchByCity(city);
-            }
-        });
+    const temp = Math.round(current.temperature_2m);
+    const city = countryCode ? `${cityName}, ${countryCode}` : cityName;
 
-        DOM.weatherRefreshBtn.addEventListener('click', () => {
-            STATE.weatherLoaded = false;
-            STATE.weatherCache  = null;
-            this._geoLocate(false);
-        });
-    },
+    // Full weather panel
+    DOM.wIcon.textContent = weatherInfo.emoji;
+    DOM.wTemp.textContent = temp;
+    DOM.wCondition.textContent = weatherInfo.desc;
+    DOM.wCity.textContent = city;
+    DOM.wHumidity.textContent = `${current.relative_humidity_2m}%`;
+    DOM.wWind.textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+    DOM.wFeels.textContent = `${Math.round(current.apparent_temperature)}°C`;
+    DOM.wVisibility.textContent = `${(current.visibility / 1000).toFixed(1)} km`;
+
+    // Top bar mini pill
+    DOM.weatherMiniIcon.textContent = weatherInfo.emoji;
+    DOM.weatherMiniTemp.textContent = `${temp}°C`;
+    DOM.weatherMiniCity.textContent = cityName;
+
+    // Dashboard card badge
+    const badge = document.getElementById("weather-badge");
+    if (badge) badge.textContent = `${temp}°C`;
+
+    this.showData();
+  },
+
+  // ── Geolocation ───────────────────────────────────────
+  _geoLocate(silent = false) {
+    if (!navigator.geolocation) {
+      if (!silent)
+        this.showError("Geolocation not supported. Enter a city below.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) =>
+        this._fetchByCoords(pos.coords.latitude, pos.coords.longitude, silent),
+      () => {
+        if (!silent)
+          this.showError("Location access denied. Enter a city name below.");
+      },
+    );
+  },
+
+  // Called silently on page load for top bar mini widget
+  silentLoad() {
+    this._geoLocate(true);
+  },
+
+  // Called when weather feature panel is opened
+  onOpen() {
+    if (STATE.weatherLoaded && STATE.weatherCache) {
+      this._displayData(
+        STATE.weatherCache.weatherData,
+        STATE.weatherCache.cityName,
+        STATE.weatherCache.countryCode,
+      );
+    } else {
+      this._geoLocate(false);
+    }
+  },
+
+  // ── Events ────────────────────────────────────────────
+  init() {
+    DOM.weatherCityBtn.addEventListener("click", () => {
+      const city = DOM.weatherCityInput.value.trim();
+      if (city) this.fetchByCity(city);
+    });
+
+    DOM.weatherCityInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const city = DOM.weatherCityInput.value.trim();
+        if (city) this.fetchByCity(city);
+      }
+    });
+
+    DOM.weatherRefreshBtn.addEventListener("click", () => {
+      STATE.weatherLoaded = false;
+      STATE.weatherCache = null;
+      this._geoLocate(false);
+    });
+  },
 };
 
 
